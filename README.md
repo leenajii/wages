@@ -1,9 +1,9 @@
-# Wages
+# wages
 
-# Running
+## Running
 
 lein run
 
-# Testing
+## Testing
 
 lein test

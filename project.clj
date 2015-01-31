@@ -1,4 +1,4 @@
-(defproject ohjus-import-clojure "0.1.0-SNAPSHOT"
+(defproject wages "0.1.0-SNAPSHOT"
   :description "Salary calculation"
   :url "https://github.com/leenajii/wages.git"
   :dependencies [[org.clojure/clojure "1.6.0"]

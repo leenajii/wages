@@ -14,7 +14,8 @@
                                                     com.sun.jmx/jmxri]]
                  [org.clojure/tools.trace "0.7.8"]
                  [org.clojars.quoll/turtle "0.2.2"]
-                 [org.clojure/core.memoize "0.5.6"]]
+                 [org.clojure/core.memoize "0.5.6"]
+                 [org.clojure/data.csv "0.1.2"]]
   :plugins [[lein-test-out "0.3.1"]]
   :aot [clojure.tools.logging.impl
         clj-time.core

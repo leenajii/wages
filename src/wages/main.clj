@@ -7,14 +7,20 @@
 
 (def salaries (salaries/get-salaries))
 
+(defn process [employee]
+  (let [employee-number (first employee)
+        employee-data (first (rest employee))
+        grouped (group-by #(nth % 2) employee-data)]
+    (info "Processing person number:" employee-number)
+    (info "Person data:")
+    (doall (map println grouped))))
+
 (defn run []
   (info "Starting to calculate salaries...")
   (let [fields (first salaries)
         salaries-without-title (rest salaries)
         grouped (group-by #(nth % 1) salaries-without-title)]
-    (info "Salaries:" salaries-without-title)
-    (doall (map println salaries-without-title))
-    (info "Grouped:" grouped)))
+    (doall (map process grouped))))
 
 (defn -main []
   (try

@@ -20,20 +20,20 @@
     (is (= 8.625 evening-wage))))
 
 (deftest calculates-overtime-compensation-corretly-for-max-2-hours
-  (let [overtime-wage-2-hours (calculate/overtime-wage 2)
-        overtime-wage-1_5-hours (calculate/overtime-wage 1.5)]
+  (let [overtime-wage-2-hours (calculate/overtime-compensation 2)
+        overtime-wage-1_5-hours (calculate/overtime-compensation 1.5)]
     (is (= 1.875 overtime-wage-2-hours))
     (is (= 1.40625 overtime-wage-1_5-hours))))
 
 (deftest calculates-overtime-compensation-corretly-for-max-4-hours
-  (let [overtime-wage-4-hours (calculate/overtime-wage 4)
-        overtime-wage-2_5-hours (calculate/overtime-wage 2.5)]
+  (let [overtime-wage-4-hours (calculate/overtime-compensation 4)
+        overtime-wage-2_5-hours (calculate/overtime-compensation 2.5)]
     (is (= 5.625 overtime-wage-4-hours))
     (is (= 2.8125 overtime-wage-2_5-hours))))
 
 (deftest calculates-overtime-compensation-correctly-for-over-4-hours
-  (let [overtime-wage-8-hours (calculate/overtime-wage 8)
-        overtime-wage-10_5-hours (calculate/overtime-wage 10.5)]
+  (let [overtime-wage-8-hours (calculate/overtime-compensation 8)
+        overtime-wage-10_5-hours (calculate/overtime-compensation 10.5)]
     (is (= 20.625 overtime-wage-8-hours))
     (is (= 30.0 overtime-wage-10_5-hours))))
 

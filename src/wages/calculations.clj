@@ -14,13 +14,13 @@
 (defn evening-work-wage [hours]
   (* evening-work-compensation hours))
 
-(defn first-overtime-hours [hours]
+(defn- first-overtime-hours [hours]
   (* 0.25 (* hours hourly-wage)))
 
-(defn next-overtime-hours [hours]
+(defn- next-overtime-hours [hours]
   (* 0.5 (* hours hourly-wage)))
 
-(defn after-overtime-overs [hours]
+(defn- after-overtime-overs [hours]
   (* 1 (* hours hourly-wage)))
 
 (defn first-and-next [hours]
@@ -39,7 +39,7 @@
         first-wage (first-overtime-hours first-hours)]
     (+ (+ first-wage next-wage) after-wage)))
 
-(defn overtime-wage [hours]
+(defn overtime-compensation [hours]
   (cond
     (> hours 4) (maximum hours)
     (> hours 2) (first-and-next hours)

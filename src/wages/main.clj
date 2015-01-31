@@ -4,9 +4,12 @@
             [clojure.tools.logging :refer [info error]])
   (:import [java.lang Runtime Thread]))
 
+(defn get-salaries []
+  (slurp "resources/hourlist201403.csv"))
 
 (defn run []
-  (info "Starting to calculate salaries..."))
+  (info "Starting to calculate salaries...")
+  (info "Salaries:"(get-salaries)))
 
 (defn -main []
   (try

@@ -2,9 +2,6 @@
   (:require [clojure.tools.trace :refer [trace]]
             [clojure.tools.logging :refer [info error]]))
 
-;Total Daily Pay =
-; Regular Daily Wage + Evening Work Compensation + Overtime Compensations
-
 (def hourly-wage 3.75)
 (def evening-work-compensation 1.15)
 
@@ -45,5 +42,11 @@
     (> hours 2) (first-and-next hours)
     (> hours 0) (first-overtime-hours hours)
     :else 0))
+
+(defn total-daily-wage [normal-hours evening-hours overtime-hours]
+  (let [normal-wage (regular-daily-wage normal-hours)
+        evening-wage (evening-work-wage evening-hours)
+        overtime-wage (overtime-compensation overtime-hours)]
+    (+ (+ evening-wage overtime-wage) normal-wage)))
 
 

@@ -1,4 +1,4 @@
-# wages
+# Wages
 
 # Running
 

@@ -6,6 +6,9 @@
 
 (def fields [:name :person-id :date :start :end])
 
+(defn- time->time-in-minutes [time-string]
+  (ftime/parse (ftime/formatters :hour-minute) time-string))
+
 (defn daily-overtime [employee]
   (let [daily-total (:total employee)]
   (if (> daily-total 8)
@@ -13,8 +16,8 @@
     0)))
 
 (defn daily-total [employee]
-  (let [start (ftime/parse (ftime/formatters :hour-minute) (:start employee))
-        end (ftime/parse (ftime/formatters :hour-minute) (:end employee))
+  (let [start (time->time-in-minutes (:start employee))
+        end (time->time-in-minutes (:end employee))
         total-minutes (t/in-minutes (t/interval start end))
         total-hours (double (/ total-minutes 60))]
     (merge employee {:total total-hours})))

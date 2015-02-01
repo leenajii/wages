@@ -64,7 +64,8 @@
 (defn daily-hours [employee-record]
   (let [date (first employee-record)
         daily-data (second employee-record)
-        daily-data-mapped (zipmap fields (first daily-data))]
-    (daily-total daily-data-mapped)))
+        daily-data-mapped (zipmap fields (first daily-data))
+        daily-total (daily-total daily-data-mapped)]
+    daily-total))
 
 

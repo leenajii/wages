@@ -5,7 +5,7 @@
 (def hourly-wage 3.75)
 (def evening-work-compensation 1.15)
 
-(defn regular-daily-wage [hours]
+(defn regular-wage [hours]
   (* hourly-wage hours))
 
 (defn evening-work-wage [hours]
@@ -43,8 +43,8 @@
     (> hours 0) (first-overtime-hours hours)
     :else 0))
 
-(defn total-daily-wage [normal-hours evening-hours overtime-hours]
-  (let [normal-wage (regular-daily-wage normal-hours)
+(defn total-wage [normal-hours evening-hours overtime-hours]
+  (let [normal-wage (regular-wage normal-hours)
         evening-wage (evening-work-wage evening-hours)
         overtime-wage (overtime-compensation overtime-hours)]
     (+ (+ evening-wage overtime-wage) normal-wage)))

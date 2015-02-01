@@ -4,11 +4,11 @@
             [wages.calculations :as calculate]))
 
 (deftest calculates-daily-wage-correctly-with-even-hours
-  (let [daily-wage (calculate/regular-daily-wage 8)]
+  (let [daily-wage (calculate/regular-wage 8)]
     (is (= 30.0 daily-wage))))
 
 (deftest calculates-daily-wage-correctly-with-half-hours
-  (let [daily-wage (calculate/regular-daily-wage 7.5)]
+  (let [daily-wage (calculate/regular-wage 7.5)]
     (is (= 28.125 daily-wage))))
 
 (deftest calculates-evening-compensation-correctly-with-even-hours
@@ -39,9 +39,9 @@
     (is (= 30.0 overtime-wage-10_5-hours))))
 
 (deftest calculates-salary-correctly-for-1-day
-  (let [daily-wage-all-compensations (calculate/total-daily-wage 8 8 2)
-        daily-wage-no-overtime (calculate/total-daily-wage 8 8 0)
-        daily-wage-no-evening-compensation (calculate/total-daily-wage 8 0 2)]
+  (let [daily-wage-all-compensations (calculate/total-wage 8 8 2)
+        daily-wage-no-overtime (calculate/total-wage 8 8 0)
+        daily-wage-no-evening-compensation (calculate/total-wage 8 0 2)]
     (is (= 41.075 daily-wage-all-compensations))
     (is (= 39.20 daily-wage-no-overtime))
     (is (= 31.875 daily-wage-no-evening-compensation))))

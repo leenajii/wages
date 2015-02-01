@@ -9,6 +9,10 @@
 (defn- time->time-in-minutes [time-string]
   (ftime/parse (ftime/formatters :hour-minute) time-string))
 
+(defn- time-interval-in-hours [start end]
+  (let [total-minutes (t/in-minutes (t/interval start end))
+        total-hours (double (/ total-minutes 60))]
+    total-hours))
 (defn daily-overtime [employee]
   (let [daily-total (:total employee)]
   (if (> daily-total 8)
@@ -18,8 +22,7 @@
 (defn daily-total [employee]
   (let [start (time->time-in-minutes (:start employee))
         end (time->time-in-minutes (:end employee))
-        total-minutes (t/in-minutes (t/interval start end))
-        total-hours (double (/ total-minutes 60))]
+        total-hours (time-interval-in-hours start end)]
     (merge employee {:total total-hours})))
 
 (defn daily-hours [employee-record]

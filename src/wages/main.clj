@@ -24,13 +24,13 @@
                         (update-result result updated-employee)))
       processed (reduce do-summing {:name name :person-id employee-number :monthly-total 0 :monthly-overtime 0 :monthly-evening-hours 0} employee)]
       processed))
+
 (defn process [employee]
   (let [employee-number (first employee)
         employee-data (first (rest employee))
-        grouped (group-by #(nth % 2) employee-data)]
-    (info "Processing person number:" employee-number)
-    (info "Person data:")
-    (doall (map println grouped))))
+        grouped (group-by #(nth % 2) employee-data)
+        processed-employee (process-employee-days grouped employee-number)]
+    (info "Processed data:" processed-employee)))
 
 (defn run []
   (info "Starting to calculate salaries...")

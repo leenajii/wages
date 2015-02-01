@@ -46,15 +46,16 @@
 (defn daily-overtime [employee]
   (let [daily-total (:total employee)]
   (if (> daily-total 8)
-    (- daily-total 8)
-    0)))
+    (merge employee {:overtime (- daily-total 8)})
+    (merge employee {:overtime 0}))))
 
 (defn daily-total [employee]
   (let [start (time->time-in-minutes (:start employee))
         end (time->time-in-minutes (:end employee))
         total-hours (time-interval-in-hours start end)]
     (-> employee
-        (merge {:total total-hours}))))
+        (merge {:total total-hours})
+        (daily-overtime))))
 
 (defn daily-hours [employee-record]
   (let [date (first employee-record)

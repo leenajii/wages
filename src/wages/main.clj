@@ -2,6 +2,7 @@
   (:gen-class)
   (:require [clojure.tools.trace :refer [trace]]
             [clojure.tools.logging :refer [info error]]
+            [wages.calculations :as calc]
             [wages.hours :as hours]
             [wages.salaries :as salaries])
   (:import [java.lang Runtime Thread]))
@@ -29,8 +30,10 @@
   (let [employee-number (first employee)
         employee-data (first (rest employee))
         grouped (group-by #(nth % 2) employee-data)
-        processed-employee (process-employee-days grouped employee-number)]
-    (info "Processed data:" processed-employee)))
+        processed-employee (process-employee-days grouped employee-number)
+        monthly-salary (calc/total-wage (:monthly-total processed-employee) (:monthly-evening-hours processed-employee) (:monthly-overtime processed-employee))
+        rounded-salary (format "%.2f" monthly-salary)]
+    (info "Processed data:" (merge processed-employee {:salary rounded-salary}))))
 
 (defn run []
   (info "Starting to calculate salaries...")

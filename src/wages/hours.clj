@@ -9,7 +9,8 @@
 (defn daily-total [employee]
   (let [start (ftime/parse (ftime/formatters :hour-minute) (:start employee))
         end (ftime/parse (ftime/formatters :hour-minute) (:end employee))
-        total-hours (t/in-hours (t/interval start end))]
+        total-minutes (t/in-minutes (t/interval start end))
+        total-hours (double (/ total-minutes 60))]
     (merge employee {:total total-hours})))
 
 (defn daily-hours [employee-record]

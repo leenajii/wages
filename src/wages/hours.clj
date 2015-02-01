@@ -6,6 +6,12 @@
 
 (def fields [:name :person-id :date :start :end])
 
+(defn daily-overtime [employee]
+  (let [daily-total (:total employee)]
+  (if (> daily-total 8)
+    (- daily-total 8)
+    0)))
+
 (defn daily-total [employee]
   (let [start (ftime/parse (ftime/formatters :hour-minute) (:start employee))
         end (ftime/parse (ftime/formatters :hour-minute) (:end employee))

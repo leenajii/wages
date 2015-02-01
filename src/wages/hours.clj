@@ -15,6 +15,10 @@
   (if (t/before? timestamp (t/plus morning-start (t/minutes 1))) true ;before 6:01, otherwise 6:00 returns false
     false))
 
+(defn is-before-or-equals-evening-start [timestamp]
+  (if (t/before? timestamp (t/plus evening-start (t/minutes 1))) true ;before 18:01, otherwise 18:00 returns false
+    false))
+
 (defn- time-interval-in-hours [start end]
   (let [total-minutes (t/in-minutes (t/interval start end))
         total-hours (double (/ total-minutes 60))]
@@ -25,6 +29,7 @@
         end (time->time-in-minutes (:end employee))]
     (cond
       (and (is-before-or-equals-morning-start start) (is-before-or-equals-morning-start end)) (time-interval-in-hours start end) ;start and end before morning start time
+      (and (is-before-or-equals-morning-start start) (is-before-or-equals-evening-start end)) (time-interval-in-hours start morning-start) ;start before morning start, end before evening start --> only morning "evening-hours"
       :else 0)))
 
 (defn daily-overtime [employee]

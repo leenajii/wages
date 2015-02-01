@@ -24,7 +24,7 @@
   (let [start (time->time-in-minutes (:start employee))
         end (time->time-in-minutes (:end employee))]
     (cond
-      (and (is-before-or-equals-morning-start start) (is-before-or-equals-morning-start end)) (time-interval-in-hours start end)
+      (and (is-before-or-equals-morning-start start) (is-before-or-equals-morning-start end)) (time-interval-in-hours start end) ;start and end before morning start time
       :else 0)))
 
 (defn daily-overtime [employee]

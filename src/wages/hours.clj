@@ -43,6 +43,9 @@
       (and (is-before-or-equals-evening-start start) (is-after-or-equals-evening-start end)) (+ (time-interval-in-hours start morning-start) (time-interval-in-hours evening-start end)) ;start before 6:00 and end after 18:00
       :else 0)))
 
+(defn employee->employee-with-evening-hours [employee]
+  (merge employee {:evening-hours (daily-evening-hours employee)}))
+
 (defn daily-overtime [employee]
   (let [daily-total (:total employee)]
   (if (> daily-total 8)
@@ -55,7 +58,8 @@
         total-hours (time-interval-in-hours start end)]
     (-> employee
         (merge {:total total-hours})
-        (daily-overtime))))
+        (daily-overtime)
+        (employee->employee-with-evening-hours))))
 
 (defn daily-hours [employee-record]
   (let [date (first employee-record)

@@ -57,5 +57,5 @@
 (deftest calculates-daily-hours-correctly
   (let [daily-hours-1 (hours/daily-hours ["20.3.2014" [["Larry Lolcode" 3 "20.3.2014" "1:00" "3:00"]]])
         daily-hours-2 (hours/daily-hours ["20.3.2014" [["Larry Lolcode" 3 "20.3.2014" "6:00" "20:00"]]])]
-    (contains-exactly? daily-hours-1 {:overtime 0 :total 2.0 :end "3:00" :start "1:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})
-    (contains-exactly? daily-hours-2 {:overtime 6.0 :total 14.0 :end "20:00" :start "6:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})))
+    (contains-exactly? daily-hours-1 {:evening-hours 2.0 :overtime 0 :total 2.0 :end "3:00" :start "1:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})
+    (contains-exactly? daily-hours-2 {:evening-hours 2.0 :overtime 6.0 :total 14.0 :end "20:00" :start "6:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})))

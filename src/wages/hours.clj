@@ -40,6 +40,7 @@
       (and (is-before-or-equals-morning-start start) (is-before-or-equals-evening-start end)) (time-interval-in-hours start morning-start) ;start before morning start, end before evening start --> only morning "evening-hours"
       (and (is-after-or-equals-evening-start start) (is-after-or-equals-evening-start end)) (time-interval-in-hours start end) ;start and end after evening start
       (and (is-after-or-equals-morning-start start) (is-after-or-equals-evening-start end)) (time-interval-in-hours evening-start end) ;start before morning start, end after evening start
+      (and (is-before-or-equals-evening-start start) (is-after-or-equals-evening-start end)) (+ (time-interval-in-hours start morning-start) (time-interval-in-hours evening-start end)) ;start before 6:00 and end after 18:00
       :else 0)))
 
 (defn daily-overtime [employee]

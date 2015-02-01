@@ -1,5 +1,4 @@
 (ns wages.salaries
-  (:gen-class)
   (:require [clojure.tools.trace :refer [trace]]
             [clojure.tools.logging :refer [info error]]
             [clojure.data.csv :as csv]

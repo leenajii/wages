@@ -24,11 +24,11 @@
     (is (= 10.0 daily-overtime-3))
     (is (= 10.25 daily-overtime-4))))
 
-(deftest calculates-daily-evening-hours-correctly
+(deftest calculates-daily-evening-hours-correctly-when-start-and-end-are-before-morning-start
   (let [daily-evening-hours-1 (hours/daily-evening-hours {:end "3:00" :start "1:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})
         daily-evening-hours-2 (hours/daily-evening-hours {:end "6:00" :start "3:00" :date "20.3.2014" :person-id 3 :name "Larry Lolcode"})]
     (is (= 2.0 daily-evening-hours-1))
-    (is (= 3.0 daily-evening-hours-2))))
+    (is (= 3.0 daily-evening-hours-2) )))
 
 (deftest calculates-daily-hours-correctly
   (let [daily-hours (hours/daily-hours ["20.3.2014" [["Larry Lolcode" 3 "20.3.2014" "1:00" "3:00"]]])]

@@ -43,10 +43,13 @@
     (> hours 0) (first-overtime-hours hours)
     :else 0))
 
-(defn total-wage [normal-hours evening-hours overtime-hours]
+(defn total-daily-wage [normal-hours evening-hours overtime-hours]
   (let [normal-wage (regular-wage normal-hours)
         evening-wage (evening-work-wage evening-hours)
         overtime-wage (overtime-compensation overtime-hours)]
+    (info "Normal wage:" normal-wage)
+    (info "Evening:" evening-wage)
+    (info "Overtime:" overtime-wage)
     (+ (+ evening-wage overtime-wage) normal-wage)))
 
 

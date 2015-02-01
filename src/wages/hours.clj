@@ -53,7 +53,8 @@
   (let [start (time->time-in-minutes (:start employee))
         end (time->time-in-minutes (:end employee))
         total-hours (time-interval-in-hours start end)]
-    (merge employee {:total total-hours})))
+    (-> employee
+        (merge {:total total-hours}))))
 
 (defn daily-hours [employee-record]
   (let [date (first employee-record)

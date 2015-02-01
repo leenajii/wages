@@ -26,6 +26,7 @@
   (try
     (run)
     (catch Exception e
-      (error "Error happened in main" e))))
+      (let [error-message (str " Message: "(.getMessage e))]
+        (error e error-message)))))
 
 

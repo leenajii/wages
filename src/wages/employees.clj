@@ -44,26 +44,25 @@
         rounded-salary (format "%.2f" monthly-salary)]
     (merge processed-employee {:salary rounded-salary})))
 
-(defn- get-employee-number [employee] ;employee in format: [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
+(defn- get-employee-number [employee]
   (first employee))
 
-(defn- get-employee-data [employee] ;employee in format: [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
-(defn process [employee]
+(defn- get-employee-data [employee]
   (if (= (first employee) "1")
     (println employee))
   (first (rest employee)))
-  (let [employee-number (first employee)
-        employee-data (first (rest employee))
-        employee-map (reduce employee-row->map [] employee-data)
-        grouped-map (group-by #(:date %) employee-map)
-        processed-employee (process-employee-days grouped-map employee-number)
-        monthly-salary (+ (+ (:normal-salary processed-employee) (:overtime-salary processed-employee)) (:evening-salary processed-employee))
-        rounded-salary (format "%.2f" monthly-salary)]
-    (info "Processed data:" (merge processed-employee {:salary rounded-salary}))))
+                                                                                    ; Formats
+(defn process [employee]                                                            ; [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
+  (let [employee-map (reduce employee-row->map [] (get-employee-data employee))     ; [{:name Scott Scala, :person-id 2, :date 2.3.2014, :start 6:00, :end 14:00} {:name Scott Scala, :person-id 2, :date 3.3.2014, :start 8:15, :end 16:00}]
+        employee-grouped-by-date (group-by #(:date %) employee-map)                 ; 10.3.2014 [{:name Scott Scala, :person-id 2, :date 10.3.2014, :start 8:15, :end 16:15} {:name Scott Scala, :person-id 2, :date 10.3.2014, :start 22:00, :end 23:00}]
+        processed-employee (process-employee-days employee-grouped-by-date (get-employee-number employee))
+        employee-with-salary (get-salary processed-employee)]
+    (info "MAP:" employee-map)
+    (info "GROUPED:" employee-grouped-by-date)
+    (info "Processed data:" employee-with-salary)))
 
 (defn calculate-monthly-salaries []
   (info "Starting to calculate salaries...")
-  (let [fields (first salaries)
-        salaries-without-title (rest salaries)
-        grouped (group-by #(nth % 1) salaries-without-title)]
-    (doall (map process grouped))))
+  (let [salaries-without-title (rest monthly-data)
+        salaries-grouped-by-person-id (group-by #(nth % 1) salaries-without-title)]
+    (doall (map process salaries-grouped-by-person-id))))

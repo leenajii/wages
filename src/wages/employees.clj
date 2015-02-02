@@ -3,9 +3,9 @@
             [clojure.tools.logging :refer [info error]]
             [wages.calculations :as calc]
             [wages.hours :as hours]
-            [wages.salaries :as salaries]))
+            [wages.monthly-data :as monthly-data]))
 
-(def salaries (salaries/get-salaries))
+(def monthly-data (monthly-data/get-monthly-data))
 
 (defn update-result [result employee-daily-result]
   (let [daily-total (:total employee-daily-result)

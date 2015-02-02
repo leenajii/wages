@@ -17,15 +17,15 @@
                :overtime-salary (+ (:overtime-salary result) daily-overtime-salary)
                :evening-salary (+ (:evening-salary result) daily-evening-salary)}))
 
-(defn process-employee-days [employee employee-number]
+(defn do-summing [result current-record]
+  (let [updated-employee (hours/daily-hours current-record)
+        daily-salary (calc/regular-wage (:total updated-employee))
+        daily-overtime-salary (calc/overtime-compensation (:overtime updated-employee))
+        daily-evening-salary (calc/evening-work-wage (:evening-hours updated-employee))]
+    (update-result result (merge updated-employee {:daily-salary daily-salary :daily-overtime-salary daily-overtime-salary :daily-evening-salary daily-evening-salary}))))
+
+(defn process-employee-days [employee employee-number]    ; employee {10.3.2014 [{:name Scott Scala, :person-id 2, :date 10.3.2014, :start 8:15, :end 16:15} {:name Scott Scala, :person-id 2, :date 10.3.2014, :start 22:00, :end 23:00}]
   (let [name (first (:name employee))
-        do-summing (fn [result current-record]
-                     (let [updated-employee (hours/daily-hours current-record)
-                           daily-salary (calc/regular-wage (:total updated-employee))
-                           daily-overtime-salary (calc/overtime-compensation (:overtime updated-employee))
-                           daily-evening-salary (calc/evening-work-wage (:evening-hours updated-employee))]
-                       (if (= employee-number "1")(println updated-employee))
-                       (update-result result (merge updated-employee {:daily-salary daily-salary :daily-overtime-salary daily-overtime-salary :daily-evening-salary daily-evening-salary}))))
         processed (reduce do-summing {:name name :person-id employee-number :monthly-total 0
                                       :monthly-overtime 0 :monthly-evening-hours 0
                                       :normal-salary 0 :overtime-salary 0 :evening-salary 0} employee)]
@@ -49,7 +49,7 @@
                                                                                     ; Formats
 (defn process [employee]                                                            ; [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
   (let [employee-map (reduce employee-row->map [] (get-employee-data employee))     ; [{:name Scott Scala, :person-id 2, :date 2.3.2014, :start 6:00, :end 14:00} {:name Scott Scala, :person-id 2, :date 3.3.2014, :start 8:15, :end 16:00}]
-        employee-grouped-by-date (group-by #(:date %) employee-map)                 ; 10.3.2014 [{:name Scott Scala, :person-id 2, :date 10.3.2014, :start 8:15, :end 16:15} {:name Scott Scala, :person-id 2, :date 10.3.2014, :start 22:00, :end 23:00}]
+        employee-grouped-by-date (group-by #(:date %) employee-map)                 ; {10.3.2014 [{:name Scott Scala, :person-id 2, :date 10.3.2014, :start 8:15, :end 16:15} {:name Scott Scala, :person-id 2, :date 10.3.2014, :start 22:00, :end 23:00}]
         processed-employee (process-employee-days employee-grouped-by-date (get-employee-number employee))
         employee-with-salary (get-salary processed-employee)]
     (info "MAP:" employee-map)

@@ -7,20 +7,15 @@
 
 (def monthly-data (monthly-data/get-monthly-data))
 
-(defn update-result [result employee-daily-result]
-  (let [daily-total (:total employee-daily-result)
-        daily-overtime (:overtime employee-daily-result)
-        daily-evening-hours (:evening-hours employee-daily-result)
-        daily-salary (:daily-salary employee-daily-result)
-        daily-overtime-salary (:daily-overtime-salary employee-daily-result)
-        daily-evening-salary (:daily-evening-salary employee-daily-result)]
+(defn update-result [result {total :total overtime :overtime evening-hours :evening-hours daily-salary :daily-salary
+                      daily-overtime-salary :daily-overtime-salary daily-evening-salary :daily-evening-salary}]
     (merge {} {:name (:name result) :person-id (:person-id result)
-               :monthly-total (+ (:monthly-total result) daily-total)
-               :monthly-overtime (+ (:monthly-overtime result) daily-overtime)
-               :monthly-evening-hours (+ (:monthly-evening-hours result) daily-evening-hours)
+               :monthly-total (+ (:monthly-total result) total)
+               :monthly-overtime (+ (:monthly-overtime result) overtime)
+               :monthly-evening-hours (+ (:monthly-evening-hours result) evening-hours)
                :normal-salary (+ (:normal-salary result) daily-salary)
                :overtime-salary (+ (:overtime-salary result) daily-overtime-salary)
-               :evening-salary (+ (:evening-salary result) daily-evening-salary)})))
+               :evening-salary (+ (:evening-salary result) daily-evening-salary)}))
 
 (defn process-employee-days [employee employee-number]
   (let [name (first (:name employee))

@@ -52,8 +52,9 @@
     (merge employee {:overtime (- daily-total 8)})
     (merge employee {:overtime 0}))))
 
-(defn daily-total [employee]
-  (let [start (time->time-in-minutes (:start employee))
+(defn daily-total [employee-day]
+  (let [employee (first (second employee-day))
+        start (time->time-in-minutes (:start employee))
         end (time->time-in-minutes (:end employee))
         total-hours (time-interval-in-hours start end)]
     (-> employee
@@ -62,10 +63,7 @@
         (employee->employee-with-evening-hours))))
 
 (defn daily-hours [employee-record]
-  (let [date (first employee-record)
-        daily-data (second employee-record)
-        daily-data-mapped (zipmap fields (first daily-data))
-        daily-total (daily-total daily-data-mapped)]
+  (let [daily-total (daily-total employee-record)]
     daily-total))
 
 

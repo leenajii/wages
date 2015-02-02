@@ -25,7 +25,7 @@
                :evening-salary (+ (:evening-salary result) daily-evening-salary)})))
 
 (defn process-employee-days [employee employee-number]
-  (let [name (first (first (nth (first employee) 1)))
+  (let [name (first (:name employee))
          do-summing (fn [result current-record]
                       (let [updated-employee (hours/daily-hours current-record)
                             daily-salary (calc/regular-wage (:total updated-employee))
@@ -39,7 +39,7 @@
       processed))
 
 (defn employee-row->map [result row] 
-  (conj result {(first row) :name (second row) :id (nth row 2) :date (nth row 3) :start (nth row 4) :end}))
+  (conj result {:name (first row) :person-id (second row) :date (nth row 2) :start (nth row 3) :end (nth row 4)}))
 
 ;(reduce map-first {} rules)
 
@@ -48,13 +48,11 @@
     (println employee))
   (let [employee-number (first employee)
         employee-data (first (rest employee))
-        grouped (group-by #(nth % 2) employee-data)
-        processed-employee (process-employee-days grouped employee-number)
+        employee-map (reduce employee-row->map [] employee-data)                                                                                                                                     
+        grouped-map (group-by #(:date %) employee-map)
+        processed-employee (process-employee-days grouped-map employee-number)
         monthly-salary (+ (+ (:normal-salary processed-employee) (:overtime-salary processed-employee)) (:evening-salary processed-employee))
-        rounded-salary (format "%.2f" monthly-salary)
-        employee-map (reduce employee-row->map #{} (first (rest employee)))]
-    (info "Grouped:" grouped)
-    (println employee-map)
+        rounded-salary (format "%.2f" monthly-salary)]
     (info "Processed data:" (merge processed-employee {:salary rounded-salary}))))
 
 (defn run []

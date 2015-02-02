@@ -39,11 +39,20 @@
 (defn employee-row->map [result row]
   (conj result {:name (first row) :person-id (second row) :date (nth row 2) :start (nth row 3) :end (nth row 4)}))
 
+(defn get-salary [processed-employee]
+  (let [monthly-salary (+ (+ (:normal-salary processed-employee) (:overtime-salary processed-employee)) (:evening-salary processed-employee))
+        rounded-salary (format "%.2f" monthly-salary)]
+    (merge processed-employee {:salary rounded-salary})))
 ;(reduce map-first {} rules)
 
+(defn- get-employee-number [employee] ;employee in format: [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
+  (first employee))
+
+(defn- get-employee-data [employee] ;employee in format: [1 [[Janet Java 1 3.3.2014 9:30 17:00] [Janet Java 1 4.3.2014 9:45 16:30]]]
 (defn process [employee]
   (if (= (first employee) "1")
     (println employee))
+  (first (rest employee)))
   (let [employee-number (first employee)
         employee-data (first (rest employee))
         employee-map (reduce employee-row->map [] employee-data)

@@ -17,7 +17,7 @@
                :overtime-salary (+ (:overtime-salary result) daily-overtime-salary)
                :evening-salary (+ (:evening-salary result) daily-evening-salary)}))
 
-(defn do-summing [result current-record]
+(defn process-day [result current-record]
   (let [updated-employee (hours/daily-hours current-record)
         daily-salary (calc/regular-wage (:total updated-employee))
         daily-overtime-salary (calc/overtime-compensation (:overtime updated-employee))
@@ -26,7 +26,7 @@
 
 (defn process-employee-days [employee employee-number]    ; employee {10.3.2014 [{:name Scott Scala, :person-id 2, :date 10.3.2014, :start 8:15, :end 16:15} {:name Scott Scala, :person-id 2, :date 10.3.2014, :start 22:00, :end 23:00}]
   (let [name (first (:name employee))
-        processed (reduce do-summing {:name name :person-id employee-number :monthly-total 0
+        processed (reduce process-day {:name name :person-id employee-number :monthly-total 0
                                       :monthly-overtime 0 :monthly-evening-hours 0
                                       :normal-salary 0 :overtime-salary 0 :evening-salary 0} employee)]
     processed))
